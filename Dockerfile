@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# Instalar dependencias del sistema, herramientas y librerías para extensiones PHP
+# Instalar dependencias del sistema, Nginx y librerías para extensiones PHP
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     zip \
     unzip \
+    nginx \
     && docker-php-ext-install \
         gd \
         intl \
@@ -18,7 +19,7 @@ RUN apt-get update && apt-get install -y \
         pdo_mysql \
         bcmath
 
-# Limpiar caché de apt para reducir peso
+# Limpiar caché de apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar Composer oficial
@@ -33,9 +34,27 @@ COPY . .
 # Instalar dependencias de PHP sin entorno de desarrollo
 RUN composer install --no-dev --optimize-autoloader
 
+# Configurar Nginx para que apunte a la carpeta pública de Laravel (public/)
+RUN echo 'server {\n\
+    listen 80;\n\
+    server_name _;\n\
+    root /var/www/html/public;\n\
+    index index.php index.html;\n\
+    location / {\n\
+        try_files $uri $uri/ /index.php?$query_string;\n\
+    },\n\
+    location ~ \\.php$ {\n\
+        include fastcgi_params;\n\
+        fastcgi_pass 127.0.0.1:9000;\n\
+        fastcgi_index index.php;\n\
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;\n\
+    }\n\
+}' > /etc/nginx/sites-available/default
+
 # Dar permisos de escritura a las carpetas de almacenamiento y caché de Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 9000
+EXPOSE 80
 
-CMD ["php-fpm"]
+# Comando para iniciar Nginx y PHP-FPM simultáneamente
+CMD service nginx start && php-fpm
