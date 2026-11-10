@@ -57,4 +57,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 EXPOSE 80
 
 # Comando para iniciar PHP-FPM y Nginx en primer plano
-CMD ["sh", "-c", "php artisan migrate --force && php-fpm -D && nginx -g 'daemon off;'"]
+EXPOSE 80
+
+# Comando exclusivo para iniciar los servicios web
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
