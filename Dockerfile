@@ -1,16 +1,24 @@
 FROM php:8.2-fpm
 
-# Instalar dependencias del sistema y extensiones de PHP necesarias para Laravel
+# Instalar dependencias del sistema, herramientas y librerías para extensiones PHP
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
+    libicu-dev \
     zip \
-    unzip
+    unzip \
+    && docker-php-ext-install \
+        gd \
+        intl \
+        zip \
+        pdo_mysql \
+        bcmath
 
-# Limpiar caché de apt
+# Limpiar caché de apt para reducir peso
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar Composer oficial
