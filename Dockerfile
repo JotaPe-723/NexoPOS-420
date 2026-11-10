@@ -8,8 +8,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     zip \
-    unzip \
-    nginx
+    unzip
 
 # Limpiar caché de apt
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -29,9 +28,6 @@ RUN composer install --no-dev --optimize-autoloader
 # Dar permisos de escritura a las carpetas de almacenamiento y caché de Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Configurar Nginx para apuntar a la carpeta pública de Laravel
-COPY .docker/nginx.conf /etc/nginx/sites-available/default
-
-EXPOSE 80
+EXPOSE 9000
 
 CMD ["php-fpm"]
