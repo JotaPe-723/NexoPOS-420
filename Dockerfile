@@ -34,7 +34,7 @@ COPY . .
 # Instalar dependencias de PHP sin entorno de desarrollo
 RUN composer install --no-dev --optimize-autoloader
 
-# Configurar Nginx para que apunte a la carpeta pública de Laravel (public/)
+# Configurar Nginx correctamente sin errores de sintaxis
 RUN echo 'server {\n\
     listen 80;\n\
     server_name _;\n\
@@ -42,7 +42,7 @@ RUN echo 'server {\n\
     index index.php index.html;\n\
     location / {\n\
         try_files $uri $uri/ /index.php?$query_string;\n\
-    },\n\
+    }\n\
     location ~ \\.php$ {\n\
         include fastcgi_params;\n\
         fastcgi_pass 127.0.0.1:9000;\n\
@@ -56,5 +56,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 EXPOSE 80
 
-# Comando para iniciar Nginx y PHP-FPM simultáneamente
-CMD service nginx start && php-fpm
+# Comando para iniciar PHP-FPM y Nginx en primer plano
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
