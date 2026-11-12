@@ -224,7 +224,6 @@ class CustomerCrud extends CrudService
                             label: __( 'Group' ),
                             name: 'group_id',
                             value: $entry->group_id ?? '',
-                            validation: 'required',
                             component: 'nsCrudForm',
                             props: CustomerGroupCrud::getFormConfig(),
                             options: Helper::toJsOptions( CustomerGroup::all(), [ 'id', 'name' ] ),
