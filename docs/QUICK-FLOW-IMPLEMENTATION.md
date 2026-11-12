@@ -53,6 +53,11 @@ Make the in-store workflow fast for a small smoke/vape shop. The POS must priori
 - `resources/ts/popups/ns-pos-quick-product-popup.vue` builds a temporary product object and adds it directly to the cart; it does not persist it.
 - `app/Crud/ProductCrud.php` uses a product + variation/unit-quantity structure. Product creation must respect that structure.
 
+## Additional change made on this branch
+
+- In `app/Crud/CustomerCrud.php`, the customer group selector is no longer marked as required in the form. Existing `filterPostInputs()` logic fills an empty group using `ns_customers_default_group` and rejects creation if that configured group does not exist. This removes the need for cashiers to choose a group manually while preserving server-side validation.
+- The customer form still contains optional profile and address tabs; they do not need to be completed for a basic customer record. A dedicated compact popup has not yet been implemented.
+
 ## Change already made on this branch
 
 - In `resources/ts/popups/ns-pos-customer-select-popup.vue`, customer search debounce was reduced from 500 ms to 200 ms.
