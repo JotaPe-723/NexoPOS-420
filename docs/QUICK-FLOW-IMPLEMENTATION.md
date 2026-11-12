@@ -87,3 +87,10 @@ Make the in-store workflow fast for a small smoke/vape shop. The POS must priori
 8. Confirm desktop and phone/tablet layout.
 
 If a test cannot be run in the available environment, say so explicitly. Do not claim it passed.
+
+
+## Verification status
+
+- Changes were committed to `nexo-quick-flow` and the branch comparison against `master` confirms four commits ahead, zero behind.
+- The repository was inspected remotely through GitHub. A local PHP/Node environment and application database were not available in this work session, so PHP lint, frontend build, automated tests, and end-to-end POS flows have **not** been run.
+- Do not deploy or merge based only on these commits. Run the verification checklist in a configured staging copy first.
