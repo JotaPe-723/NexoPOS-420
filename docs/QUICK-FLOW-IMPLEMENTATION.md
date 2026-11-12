@@ -64,6 +64,14 @@ Make the in-store workflow fast for a small smoke/vape shop. The POS must priori
 - The debounce timeout is cleared when the popup unmounts to avoid a delayed search after closing.
 - This is a small responsiveness improvement, not the complete quick-customer workflow.
 
+## Product creation backend path inspected
+
+- `app/Http/Controllers/Dashboard/ProductsController.php::saveProduct()` expects the structured product form payload, including a primary variation under `variations`, then flattens its identification fields and passes the result to `ProductService::create()`.
+- `app/Services/ProductService.php::create()` validates that the category exists and delegates simple/variable product creation. `createSimpleProduct()` checks barcode uniqueness, generates a SKU when omitted, persists the product, and computes unit quantities.
+- `app/Crud/ProductCrud.php` currently requires a category, unit group, assigned unit, sale price, and wholesale price. It models units and prices inside the product variation's selling group.
+- `ProductUnitQuantity` stores the sale price, wholesale price, barcode, and stock quantity. Initial stock must be written through the product's supported unit-quantity/stock workflow, not by inventing a top-level product quantity.
+- The existing quick POS popup is not a safe base for persistent creation because it explicitly sets stock management to disabled and adds only a cart object. A future quick-product flow should reuse the official product creation path and its structured payload, or a dedicated backend action that delegates to the same service with validated defaults.
+
 ## Guardrails
 
 - Never modify `master` directly.
