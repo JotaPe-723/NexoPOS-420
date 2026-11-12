@@ -87,7 +87,7 @@ export default {
             clearTimeout( this.debounceSearch );
             this.debounceSearch     =   setTimeout( () => {
                 this.searchCustomer( value );
-            }, 500 );
+            }, 200 );
         }
     },
     mounted() {
@@ -102,6 +102,7 @@ export default {
         this.popupCloser();
     },
     unmounted() {
+        clearTimeout( this.debounceSearch );
         this.orderSubscription.unsubscribe();
     },
     methods: {
