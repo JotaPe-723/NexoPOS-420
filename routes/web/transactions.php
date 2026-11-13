@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Dashboard\ExpenseRegisterController;
 use App\Http\Controllers\Dashboard\TransactionController;
 use App\Http\Controllers\Dashboard\TransactionsAccountController;
 use Illuminate\Support\Facades\Route;
+
+Route::get( '/accounting/expenses', [ ExpenseRegisterController::class, 'listExpenses' ] )->name( ns()->routeName( 'ns.dashboard.expense-register' ) );
+Route::get( '/accounting/expenses/create', [ ExpenseRegisterController::class, 'createExpense' ] )->name( ns()->routeName( 'ns.dashboard.expense-register.create' ) );
+Route::get( '/accounting/expenses/edit/{expense}', [ ExpenseRegisterController::class, 'editExpense' ] )->name( ns()->routeName( 'ns.dashboard.expense-register.edit' ) );
 
 Route::get( '/accounting/transactions', [ TransactionController::class, 'listTransactions' ] )->name( ns()->routeName( 'ns.dashboard.transactions' ) );
 Route::get( '/accounting/transactions/create', [ TransactionController::class, 'createTransaction' ] )->name( ns()->routeName( 'ns.dashboard.transactions.create' ) );
