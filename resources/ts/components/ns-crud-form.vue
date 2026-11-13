@@ -28,7 +28,7 @@ export default {
     mounted() {
         this.loadForm();
     },
-    props: [ 'src', 'createUrl', 'fieldClass', 'submitUrl', 'submitMethod', 'disableTabs', 'queryParams', 'popup' ],
+    props: [ 'src', 'createUrl', 'fieldClass', 'submitUrl', 'submitMethod', 'disableTabs', 'queryParams', 'popup', 'redirectOnSave' ],
     computed: {
         activeTabFields() {
             for( let identifier in this.form.tabs ) {
@@ -111,7 +111,7 @@ export default {
                         if ( this.popup ) {
                             this.popupResolver( result );
                         } else {
-                            if ( this.submitMethod && this.submitMethod.toLowerCase() === 'post' && this.links.list !== false ) {
+                            if ( this.submitMethod && this.submitMethod.toLowerCase() === 'post' && this.links.list !== false && this.redirectOnSave !== false ) {
                                 return document.location   =   result.data.editUrl || this.links.list;
                             } else {
                                 nsSnackBar.info( result.message, __( 'Okay' ), { duration: 3000 });
