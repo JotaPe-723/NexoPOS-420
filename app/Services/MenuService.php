@@ -185,6 +185,12 @@ class MenuService
                         href: ns()->url( '/dashboard/accounting/expenses/create' )
                     ),
                     AsideMenu::subMenu(
+                        label: __( 'Expense Summary' ),
+                        identifier: 'expense-register-summary',
+                        permissions: [ 'nexopos.read.expense-register' ],
+                        href: ns()->url( '/dashboard/accounting/expenses/summary' )
+                    ),
+                    AsideMenu::subMenu(
                         label: __( 'Scheduled Transactions' ),
                         identifier: 'transactions',
                         permissions: [ 'nexopos.read.transactions' ],
