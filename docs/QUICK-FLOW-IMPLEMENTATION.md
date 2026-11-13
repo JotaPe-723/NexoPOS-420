@@ -57,6 +57,7 @@ Make the in-store workflow fast for a small smoke/vape shop. The POS must priori
 
 - In `app/Crud/CustomerCrud.php`, the customer group selector is no longer marked as required in the form. Existing `filterPostInputs()` logic fills an empty group using `ns_customers_default_group` and rejects creation if that configured group does not exist. This removes the need for cashiers to choose a group manually while preserving server-side validation.
 - The customer form still contains optional profile and address tabs; they do not need to be completed for a basic customer record. A dedicated compact popup has not yet been implemented.
+- Fixed the POS customer popup save path: `ns-crud-form` now supports `redirectOnSave=false` for embedded workflows, and the POS popup listens to the component's actual `saved` event. This allows the newly created customer to be selected on the active POS order instead of redirecting the cashier to the dashboard edit page. This behavior has not yet been verified in a running app.
 
 ## Change already made on this branch
 
