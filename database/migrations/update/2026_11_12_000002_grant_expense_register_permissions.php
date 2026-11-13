@@ -33,6 +33,7 @@ return new class extends Migration
             ->each( fn ( Role $role ) => $role->addPermissions( [
                 'nexopos.read.expense-register',
                 'nexopos.create.expense-register',
+                'nexopos.update.expense-register',
             ] ) );
     }
 
