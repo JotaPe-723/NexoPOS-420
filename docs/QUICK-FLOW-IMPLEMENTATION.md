@@ -117,8 +117,8 @@ Recommended implementation: add a dedicated, permission-protected expense-regist
 ## Dedicated expense register implementation (2026-11-12)
 
 A separate payment-level expense register has been added without replacing NexoPOS's existing transaction engine:
-- Table/model: `nexopos_expense_register` / `App\\Models\\ExpenseRegister`.
-- CRUD: `App\\Crud\\ExpenseRegisterCrud`, with server-side validation for date, category, positive COP amount, payment method, fixed/variable type, status, and optional metadata.
+- Table/model: `nexopos_expense_register` / `App\Models\ExpenseRegister`.
+- CRUD: `App\Crud\ExpenseRegisterCrud`, with server-side validation for date, category, positive COP amount, payment method, fixed/variable type, status, and optional metadata.
 - Fields follow the workbook: date, category, description, amount, payment method, responsible person, fixed/variable type, paid/pending status, receipt/reference, and notes. Classification is assigned server-side: inventory purchase => inventory; loan repayment => financing; other categories => operation.
 - Dashboard paths: `/dashboard/accounting/expenses`, `/dashboard/accounting/expenses/create`, and `/dashboard/accounting/expenses/summary`. Existing transaction definitions remain available as Scheduled Transactions, and transaction history/accounting settings are preserved.
 - Monthly summary includes paid outflows, operating expenses, inventory purchases, loan repayments, pending payments, movement count, category paid/pending totals and paid percentage, plus annual monthly evolution.
