@@ -112,3 +112,17 @@ The supplied workbook `Gastos 420_FOUR-TWENTY.xlsx` defines a payment-level expe
 NexoPOS's existing Accounting > Expenses page is backed by `TransactionCrud`, which stores transaction definitions (including recurring/scheduled/entity transactions). Actual postings are stored in `TransactionHistory` and may trigger accounting reflection/report jobs. That model is not a one-row-per-payment register and does not have all workbook metadata (payment method, responsible person, receipt/reference, notes, fixed/variable type, paid/pending status). Reusing it naively would risk changing existing accounting behavior or misrepresenting scheduled transaction definitions as individual payments.
 
 Recommended implementation: add a dedicated, permission-protected expense-register resource/table for manual payment-level entries and link it from the existing Accounting > Expenses area, while leaving the existing accounting transaction engine intact. Do not import the workbook's example rows. Do not automatically change inventory stock or post accounting journals until an explicit, tested mapping to NexoPOS's accounting accounts/payment methods is implemented. The month summary should distinguish inventory purchases and loan principal from operating expenses, as the workbook does.
+
+
+## Dedicated expense register implementation (2026-11-12)
+
+A separate payment-level expense register has been added without replacing NexoPOS's existing transaction engine:
+- Table/model: `nexopos_expense_register` / `App\\Models\\ExpenseRegister`.
+- CRUD: `App\\Crud\\ExpenseRegisterCrud`, with server-side validation for date, category, positive COP amount, payment method, fixed/variable type, status, and optional metadata.
+- Fields follow the workbook: date, category, description, amount, payment method, responsible person, fixed/variable type, paid/pending status, receipt/reference, and notes. Classification is assigned server-side: inventory purchase => inventory; loan repayment => financing; other categories => operation.
+- Dashboard paths: `/dashboard/accounting/expenses`, `/dashboard/accounting/expenses/create`, and `/dashboard/accounting/expenses/summary`. Existing transaction definitions remain available as Scheduled Transactions, and transaction history/accounting settings are preserved.
+- Monthly summary includes paid outflows, operating expenses, inventory purchases, loan repayments, pending payments, movement count, category paid/pending totals and paid percentage, plus annual monthly evolution.
+- Dedicated permissions are created and assigned to administrator/store administrator roles; store cashier can read, create, and update entries so a pending expense can be marked paid. Cashier delete permission is not granted.
+- Workbook example rows are not imported. The register does not automatically modify inventory stock or create accounting journal postings. Inventory purchases must still be received through Procurement when stock needs to increase; the register is a manual cash-outflow record. Avoid recording the same payment in both places if you are using Procurement accounting automation.
+
+Verification status: source files and GitHub changes have been reviewed, but PHP lint, Laravel migrations, browser rendering, CRUD create/edit/delete, permission behavior, and summary calculations have not been executed against a running NexoPOS database. Do not deploy until these checks are run in the store's staging/local installation.
