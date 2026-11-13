@@ -12,8 +12,9 @@
                     <ns-crud-form
                         v-if="userCan( 'nexopos.create.customers' )"
                         @updated="prefillForm( $event )"
-                        @save="handleSavedCustomer( $event )"
+                        @saved="handleSavedCustomer( $event )"
                         submit-url="/api/crud/ns.customers"
+                        :redirect-on-save="false"
                         src="/api/crud/ns.customers/form-config">
                         <template v-slot:title>{{ __( 'Customer Name' ) }}</template>
                         <template v-slot:save>{{ __( 'Save Customer' ) }}</template>
