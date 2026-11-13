@@ -86,7 +86,7 @@ class ExpenseRegisterCrud extends CrudService
                             label: __( 'Amount (COP)' ),
                             name: 'amount',
                             value: $entry->amount ?? '',
-                            validation: 'required|min:0.01',
+                            validation: 'required',
                             description: __( 'Enter the amount as a number, without currency symbols.' ),
                         ),
                         FormInput::select(
