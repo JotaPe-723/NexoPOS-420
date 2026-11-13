@@ -100,7 +100,7 @@ If a test cannot be run in the available environment, say so explicitly. Do not 
 
 ## Verification status
 
-- Changes are committed to `nexo-quick-flow`; the latest comparison against `master` confirms 36 commits ahead and zero behind.
+- Changes are committed to `nexo-quick-flow`; the latest comparison against `master` confirms the branch is ahead with zero commits behind.
 - The repository was inspected remotely through GitHub. Although PHP CLI is available, a local checkout and configured application database are not available in this work session, so PHP lint against the actual repository files, Laravel migrations, frontend build, automated tests, and end-to-end flows have **not** been run.
 - Do not deploy or merge based only on these commits. Run the verification checklist in a configured staging copy first.
 
