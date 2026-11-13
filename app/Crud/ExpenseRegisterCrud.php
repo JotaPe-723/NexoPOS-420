@@ -137,6 +137,32 @@ class ExpenseRegisterCrud extends CrudService
         );
     }
 
+    protected function validateExpense( array $inputs ): void
+    {
+        Validator::make( $inputs, [
+            'expense_date' => [ 'required', 'date' ],
+            'description' => [ 'required', 'string', 'max:255' ],
+            'category' => [ 'required', Rule::in( ExpenseRegister::CATEGORIES ) ],
+            'amount' => [ 'required', 'numeric', 'gt:0' ],
+            'payment_method' => [ 'required', Rule::in( ExpenseRegister::PAYMENT_METHODS ) ],
+            'responsible' => [ 'nullable', 'string', 'max:255' ],
+            'expense_type' => [ 'required', Rule::in( array_keys( ExpenseRegister::TYPES ) ) ],
+            'status' => [ 'required', Rule::in( array_keys( ExpenseRegister::STATUSES ) ) ],
+            'receipt_reference' => [ 'nullable', 'string', 'max:255' ],
+            'notes' => [ 'nullable', 'string' ],
+        ] )->validate();
+    }
+
+    public function beforePost( $inputs )
+    {
+        $this->validateExpense( $inputs );
+    }
+
+    public function beforePut( $inputs, ExpenseRegister $entry )
+    {
+        $this->validateExpense( $inputs );
+    }
+
     public function filterPostInputs( $inputs )
     {
         $inputs['classification'] = ExpenseRegister::classify( $inputs['category'] ?? null );
