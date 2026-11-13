@@ -178,6 +178,12 @@ class ExpenseRegisterCrud extends CrudService
             $inputs['classification'] = ExpenseRegister::classify( $inputs['category'] );
         }
 
+        foreach ( [ 'responsible', 'receipt_reference', 'notes' ] as $optionalField ) {
+            if ( ! array_key_exists( $optionalField, $inputs ) ) {
+                $inputs[ $optionalField ] = null;
+            }
+        }
+
         return $inputs;
     }
 
