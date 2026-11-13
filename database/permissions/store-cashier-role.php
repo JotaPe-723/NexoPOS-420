@@ -11,6 +11,7 @@ $storeCashier->locked = true;
 $storeCashier->description = __( 'Has a control over the sale process.' );
 $storeCashier->save();
 $storeCashier->addPermissions( [ 'read.dashboard' ] );
+$storeCashier->addPermissions( Permission::whereIn( 'namespace', [ 'nexopos.read.expense-register', 'nexopos.create.expense-register' ] )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeCashier->addPermissions( Permission::includes( '.profile' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeCashier->addPermissions( Permission::whereIn( 'namespace', [
     'nexopos.create.orders',
