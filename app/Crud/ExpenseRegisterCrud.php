@@ -9,6 +9,8 @@ use App\Models\ExpenseRegister;
 use App\Services\CrudEntry;
 use App\Services\CrudService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use TorMorten\Eventy\Facades\Events as Hook;
 
 class ExpenseRegisterCrud extends CrudService
