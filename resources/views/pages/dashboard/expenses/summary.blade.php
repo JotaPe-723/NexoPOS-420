@@ -47,12 +47,12 @@
                 <h3 class="mb-3 font-semibold">{{ __( 'Breakdown by Category' ) }}</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
-                        <thead><tr class="border-b text-left"><th class="py-2">{{ __( 'Category' ) }}</th><th class="py-2 text-right">{{ __( 'Paid' ) }}</th><th class="py-2 text-right">{{ __( 'Pending' ) }}</th></tr></thead>
+                        <thead><tr class="border-b text-left"><th class="py-2">{{ __( 'Category' ) }}</th><th class="py-2 text-right">{{ __( 'Paid' ) }}</th><th class="py-2 text-right">{{ __( 'Pending' ) }}</th><th class="py-2 text-right">{{ __( 'Paid %' ) }}</th></tr></thead>
                         <tbody>
                             @forelse ( $categories as $category )
-                                <tr class="border-b"><td class="py-2">{{ $category->category }}</td><td class="py-2 text-right">${{ number_format( $category->paid_total, 0, ',', '.' ) }}</td><td class="py-2 text-right">${{ number_format( $category->pending_total, 0, ',', '.' ) }}</td></tr>
+                                <tr class="border-b"><td class="py-2">{{ $category->category }}</td><td class="py-2 text-right">${{ number_format( $category->paid_total, 0, ',', '.' ) }}</td><td class="py-2 text-right">${{ number_format( $category->pending_total, 0, ',', '.' ) }}</td><td class="py-2 text-right">{{ number_format( $category->paid_percentage, 1 ) }}%</td></tr>
                             @empty
-                                <tr><td colspan="3" class="py-4 text-center opacity-60">{{ __( 'No expenses for this period.' ) }}</td></tr>
+                                <tr><td colspan="4" class="py-4 text-center opacity-60">{{ __( 'No expenses for this period.' ) }}</td></tr>
                             @endforelse
                         </tbody>
                     </table>
