@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get( '/accounting/expenses', [ ExpenseRegisterController::class, 'listExpenses' ] )->name( ns()->routeName( 'ns.dashboard.expense-register' ) );
 Route::get( '/accounting/expenses/create', [ ExpenseRegisterController::class, 'createExpense' ] )->name( ns()->routeName( 'ns.dashboard.expense-register.create' ) );
+Route::get( '/accounting/expenses/summary', [ ExpenseRegisterController::class, 'summary' ] )->name( ns()->routeName( 'ns.dashboard.expense-register.summary' ) );
 Route::get( '/accounting/expenses/edit/{expense}', [ ExpenseRegisterController::class, 'editExpense' ] )->name( ns()->routeName( 'ns.dashboard.expense-register.edit' ) );
 
 Route::get( '/accounting/transactions', [ TransactionController::class, 'listTransactions' ] )->name( ns()->routeName( 'ns.dashboard.transactions' ) );
