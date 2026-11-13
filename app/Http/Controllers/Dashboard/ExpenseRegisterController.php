@@ -12,6 +12,8 @@ class ExpenseRegisterController extends DashboardController
     public function editExpense( ExpenseRegister $expense ) { return ExpenseRegisterCrud::form( $expense ); }
     public function summary( Request $request )
     {
+        ns()->restrict( 'nexopos.read.expense-register' );
+
         $year = (int) $request->query( 'year', ns()->date->year );
         $month = (int) $request->query( 'month', ns()->date->month );
         abort_if( $year < 2000 || $year > 2100 || $month < 1 || $month > 12, 422, __( 'Invalid reporting period.' ) );
@@ -28,6 +30,7 @@ class ExpenseRegisterController extends DashboardController
         $categories = ( clone $period )->select( 'category' )
             ->selectRaw( "SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) as paid_total" )
             ->selectRaw( "SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) as pending_total" )
+            ->selectRaw( "CASE WHEN SUM(amount) > 0 THEN SUM(CASE WHEN status = 'paid' THEN amount ELSE 0 END) * 100.0 / SUM(amount) ELSE 0 END as paid_percentage" )
             ->groupBy( 'category' )->orderBy( 'category' )->get();
         $monthly = [];
         for ( $index = 1; $index <= 12; $index++ ) {
