@@ -14,6 +14,7 @@ $storeAdmin->addPermissions( [ 'read.dashboard' ] );
 $storeAdmin->addPermissions( Permission::includes( '.transactions' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeAdmin->addPermissions( Permission::includes( '.cash-flow-history' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeAdmin->addPermissions( Permission::includes( '.transactions-accounts' )->get()->map( fn( $permission ) => $permission->namespace ) );
+$storeAdmin->addPermissions( Permission::includes( '.expense-register' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeAdmin->addPermissions( Permission::includes( '.categories' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeAdmin->addPermissions( Permission::includes( '.customers' )->get()->map( fn( $permission ) => $permission->namespace ) );
 $storeAdmin->addPermissions( Permission::includes( '.customers-groups' )->get()->map( fn( $permission ) => $permission->namespace ) );
