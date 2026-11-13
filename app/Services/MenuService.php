@@ -168,16 +168,30 @@ class MenuService
                     'nexopos.create.transactions',
                     'nexopos.read.transactions-account',
                     'nexopos.create.transactions-account',
+                    'nexopos.read.expense-register',
+                    'nexopos.create.expense-register',
                 ],
                 childrens: AsideMenu::childrens(
                     AsideMenu::subMenu(
                         label: __( 'Expenses' ),
+                        identifier: 'expense-register',
+                        permissions: [ 'nexopos.read.expense-register' ],
+                        href: ns()->url( '/dashboard/accounting/expenses' )
+                    ),
+                    AsideMenu::subMenu(
+                        label: __( 'Register Expense' ),
+                        identifier: 'create-expense-register',
+                        permissions: [ 'nexopos.create.expense-register' ],
+                        href: ns()->url( '/dashboard/accounting/expenses/create' )
+                    ),
+                    AsideMenu::subMenu(
+                        label: __( 'Scheduled Transactions' ),
                         identifier: 'transactions',
                         permissions: [ 'nexopos.read.transactions' ],
                         href: ns()->url( '/dashboard/accounting/transactions' )
                     ),
                     AsideMenu::subMenu(
-                        label: __( 'Create Expense' ),
+                        label: __( 'Create Scheduled Transaction' ),
                         identifier: 'create-transaction',
                         permissions: [ 'nexopos.create.transactions' ],
                         href: ns()->url( '/dashboard/accounting/transactions/create' )
@@ -205,7 +219,7 @@ class MenuService
                         identifier: 'create-transactions-account',
                         permissions: [ 'nexopos.create.transactions-account' ],
                         href: ns()->url( '/dashboard/accounting/accounts/create' )
-                    ),
+                    )
                 ),
             ),
             AsideMenu::menu(
